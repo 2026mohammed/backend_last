@@ -5,9 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from predict import predict_image_from_path  # من الملف predict.py
 import shutil
 import os
-
 app = FastAPI()
-
 # إعداد CORS للسماح للفرونتند بالوصول إلى هذا السيرفر
 app.add_middleware(
     CORSMiddleware,
@@ -16,11 +14,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # مجلد مؤقت لحفظ الصور
 UPLOAD_FOLDER = "uploaded_images"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
     # حفظ الصورة في مجلد مؤقت
@@ -30,10 +26,8 @@ async def predict(file: UploadFile = File(...)):
 
     # استدعاء دالة التنبؤ من predict.py
     result = predict_image_from_path(file_location)
-
     # حذف الصورة بعد التنبؤ (اختياري)
     os.remove(file_location)
-
     return result
     if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))  # Render يعطي متغير PORT تلقائياً
