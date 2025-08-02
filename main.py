@@ -1,3 +1,5 @@
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from predict import predict_image_from_path  # من الملف predict.py
@@ -33,3 +35,6 @@ async def predict(file: UploadFile = File(...)):
     os.remove(file_location)
 
     return result
+    if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # Render يعطي متغير PORT تلقائياً
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
